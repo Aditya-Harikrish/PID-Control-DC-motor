@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <title>LED Control</title>
+
+    <style>
+        html {
+            font-family: Helvetica;
+            display: inline-block;
+            margin: 0px auto;
+            text-align: center;
+        }
+
+        body {
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #444444;
+            margin: 50px auto 30px;
+        }
+
+        h3 {
+            color: #444444;
+            margin-bottom: 50px;
+        }
+
+        .button {
+            display: block;
+            width: 80px;
+            background-color: #1abc9c;
+            border: none;
+            color: white;
+            padding: 13px 30px;
+            text-decoration: none;
+            font-size: 25px;
+            margin: 0px auto 35px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .button-on {
+            background-color: #1abc9c;
+        }
+
+        .button-on:active {
+            background-color: #16a085;
+        }
+
+        .button-off {
+            background-color: #34495e;
+        }
+
+        .button-off:active {
+            background-color: #2c3e50;
+        }
+
+        p {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <script>
+        function pushValue() {
+            const Http = new XMLHttpRequest();
+            const url = 'https://api.thingspeak.com/update?api_key=XU89SKWS3ZIIHP52&field4=10';
+            Http.open("GET", url);
+            Http.send();
+
+            Http.onreadystatechange = (e) => {
+                console.log(Http.responseText)
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <h1>ESP32 with ThingSpeak Server</h1>
+
+    <!-- <h3>Using Station(STA) Mode</h3>
+
+    <h4>Temperature:</h4> -->
+
+    <!-- <iframe width="450" height="260" style="border: 1px solid #cccccc;"
+        src="https://thingspeak.com/channels/1825221/charts/1?api_key=U29GEZH7BZ4ECF53&bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+    <h4>Humidity:</h4>
+
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;"
+        src="https://thingspeak.com/channels/1825221/charts/5?api_key=U29GEZH7BZ4ECF53&bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe> -->
+    <h4>Input Angle</h4>
+    <form>
+        <label for="quantity">Angle (from 0 to 360):</label>
+        <input type="number" id="angle" name="angle" min="0" max="360">
+        <input type="submit" onClick=pushValue() value="Submit">
+    </form>
+
+</body>
+
+</html>
