@@ -1,6 +1,5 @@
 // includes
 
-#include "config.h"
 #include "mbedtls/base64.h"
 #include "mbedtls/md.h"
 #include "analogWrite.h"
@@ -52,7 +51,6 @@
     String topic_1 = "{\n\"write_api_key\": \"XU89SKWS3ZIIHP52\",\n\"updates\": [\n";
     String Temp = "";  
     String jsonBuffer = ""; //JSON Body
-    String onem2mBuffer = "";
 
   // Time
     #define PID_TIMER 10000
@@ -164,7 +162,22 @@ void loop() {
   delay(100000);
 }
 
-
+//void mqttconnectloop()
+//{
+//  while(!mqttClient.connected())
+//  {
+//    
+//    if (mqttClient.connect( clientID, mqttUserName, mqttPass )) {
+//      Serial.println("Connected to MQTT broker");
+//      break;
+//    }
+//    else {
+//      Serial.println("MQTT connect failed");
+//      Serial.println("Will reset and try again...");
+//      delay(500);
+//    }
+//  }
+//}
 
 void PID_control(float target,float kp,float ki,float kd) 
 {
@@ -290,7 +303,6 @@ void PID_control(float target,float kp,float ki,float kd)
 
    // Doing a bulk update
    thingspeakPOST(jsonBuffer);
-   jsonBuffer = "";
    
 }
 
@@ -376,20 +388,4 @@ String final_1 = "";
  
  // String req_data = "{\"m2m:cin\": {\"con\": \"" + data + "\",\"cnf\": \"" + description + "\"}}";
   // Serial.println(req_data);
-//void mqttconnectloop()
-//{
-//  while(!mqttClient.connected())
-//  {
-//    
-//    if (mqttClient.connect( clientID, mqttUserName, mqttPass )) {
-//      Serial.println("Connected to MQTT broker");
-//      break;
-//    }
-//    else {
-//      Serial.println("MQTT connect failed");
-//      Serial.println("Will reset and try again...");
-//      delay(500);
-//    }
-//  }
-//}
-*/
+  */ 
