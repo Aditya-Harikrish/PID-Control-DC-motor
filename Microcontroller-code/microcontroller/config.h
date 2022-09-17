@@ -19,5 +19,10 @@
         #define LIVE_READ_API_KEY  "CTF2SKY12O8L422M"
 // Onem2m
     #define USER_PASS "KtSpH8:F902As"
-    
+    #define Post_URL " https://esw-onem2m.iiit.ac.in/~/in-cse/in-name/Team-35/Node-1/Data"
+
+// PID constants
+    #define K_P 10.0
+    #define K_D 0.025
+    #define K_I 5.0
 #endif
