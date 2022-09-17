@@ -56,8 +56,10 @@
     String live_Json = "";
     String Temp = "";  
     String jsonBody = "";   //JSON body
+    String tsPOST = "";
     String onem2mBuffer = "";
     String onem2mrequest = "";
+    String ClearReq = "";
 
   // Time
     #define PID_TIMER 10000
@@ -79,14 +81,14 @@
     bool use_integral = false;
     float eprev = 0;
     float eintegral = 0;
-    float e;
-    float dedt;
-    float u;
-    float pwr;
+    float e = 0;
+    float dedt = 0;
+    float u = 0;
+    float pwr = 0;
     volatile int posi = 0;
  
   // Angles
-    float input_target;
+    float input_target = 0.0;
     float previous_target=0.0;
     float pos = 0;
 
@@ -94,19 +96,21 @@
     int statusCode     = 0;
     int postStatusCode = 0;
     int onem2mcode     = 0;
+    int clearStatusCode = 0;
+
 
 void setup() {
 
-    live_Json  = "\"write_api_key\": \"" ;
+    live_Json  = "{\"write_api_key\": \"" ;
     live_Json +=  LIVE_WRITE_API_KEY     ;
     live_Json += "\",\n\"updates\": [\n" ;
 
-    archive_Json  = "\"write_api_key\": \"";
+    archive_Json  = "{\"write_api_key\": \"";
     archive_Json += ARCHIVE_WRITE_API_KEY  ;
     archive_Json += "\",\n\"updates\": [\n";
     
   // put your setup code here, to run once:
-    Serial.begin(9600);
+    Serial.begin(115200);
 
     pinMode(ENCA,INPUT);
     pinMode(ENCB,INPUT);
@@ -134,9 +138,9 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   //  input_target = 45.00;
-  
-  
-  
+  noInterrupts();
+  posi = 0;
+  interrupts();
   Experiment_ID++;
   Serial.println("Experiment ID: " + String(Experiment_ID));
 
@@ -165,7 +169,7 @@ void loop() {
   
   statusCode = 0;
 
-  onem2mBuffer = "["+String(Experiment_ID)+","+String(input_target)+","+String(k_p)+","+String(k_d)+","+String(k_i);
+  onem2mBuffer = "["+String(Experiment_ID)+","+String(input_target)+","+String(k_p)+","+String(k_d)+","+String(k_i)+",";
   jsonBody = "";
 
   if(input_target != previous_target){
@@ -174,9 +178,16 @@ void loop() {
     setMotor(0,0,PWM,IN1,IN2); 
   }
 
-  delay(240000);
-  PID_reset(0,K_P,K_D,K_I);
-  delay(120000);
+  delay(60000);
+  if(previous_target != 0.0){
+    PID_reset(0,K_P,K_D,K_I);
+    previous_target = 0;
+    setMotor(0,0,PWM,IN1,IN2); 
+
+  }
+  // clearChannel(LIVE_CHANNEL_ID);
+  delay(60000);
+  
 
 }
 
@@ -184,7 +195,12 @@ void PID_reset(float target,float kp,float kd,float ki)
 {
     startTime = millis();
     lastTime = millis();
+    eprev = 0;
+    use_integral = false;
+    md = 0;
     while(millis()- startTime < PID_TIMER){
+      if(millis() - lastTime > SAMPLING_RATE){
+
         currT = micros();
         deltaT = ((float) (currT - prevT))/( 1.0e6 );
         prevT = currT;
@@ -193,7 +209,9 @@ void PID_reset(float target,float kp,float kd,float ki)
         pos = 0; 
         
         noInterrupts(); // disable interrupts temporarily while reading
-        pos = (float)posi*0.85714285714//* 0.64056939501  ;
+        pos = (float)posi*0.85714285714f;//* 0.64056939501 
+        Serial.print(" ");
+        Serial.print(posi);
         interrupts(); // turn interrupts back on
         
         // error
@@ -246,11 +264,15 @@ void PID_reset(float target,float kp,float kd,float ki)
         // store previous error
         eprev = e;
 
-        if(fabs(target-pos)<0.05){
+        lastTime = millis();
+
+        if(fabs(target-pos)<0.5){
           break;
         }
+      }
     }
     setMotor(0,0,PWM,IN1,IN2);
+    eprev = 0;
 }
 
 void PID_control(float target,float kp,float kd,float ki,int ID) 
@@ -259,10 +281,10 @@ void PID_control(float target,float kp,float kd,float ki,int ID)
     startTime = millis();
     lastTime = millis();
     lastpubTime = millis();
-    use_integral = false;
     md = 0;
-    
     onem2mBuffer = onem2mBuffer +"(";
+    eprev = 0;
+    use_integral = false;
     while(millis()- startTime < PID_TIMER){
 
       if(millis() - lastTime > SAMPLING_RATE){
@@ -275,10 +297,11 @@ void PID_control(float target,float kp,float kd,float ki,int ID)
         pos = 0; 
         
         noInterrupts(); // disable interrupts temporarily while reading
-        pos = (float)posi*0.85714285714//* 0.64056939501  ;
+        pos = (float)posi*0.85714285714f;//* 0.64056939501  ;
+        Serial.print(" ");
+        Serial.print(posi);
         interrupts(); // turn interrupts back on
         
-        // pos = pos + 5;  
         // error
         e = target - pos;
 
@@ -351,13 +374,13 @@ void PID_control(float target,float kp,float kd,float ki,int ID)
         Temp="\"field6\":\""+String(pos)+"\",";
         jsonBody += Temp;
 
-        Temp="\"field7\":\""+String(pwr)+"\"";
+        Temp="\"field7\":\""+String(pwr)+"\",";
         jsonBody += Temp;
         
         Temp="\"field8\":\""+String(ID)+"\"";
         jsonBody += Temp;
 
-        Temp="},\n";
+        Temp="},";
         jsonBody += Temp;
         
         if(fabs(target-pos)<0.5){
@@ -368,27 +391,62 @@ void PID_control(float target,float kp,float kd,float ki,int ID)
   }
    setMotor(0,0,PWM,IN1,IN2);
    // Removing the final ','
-   jsonBody[jsonBody.length()-2] = '\n';
+   //jsonBody[jsonBody.length()-2] = '\n';
    jsonBody[jsonBody.length()-1] = ']';
    onem2mBuffer[onem2mBuffer.length()-1] = ')';
    
-   Temp="}";
+   Temp="}";  
    jsonBody += Temp;
    onem2mBuffer += "]";
 
    // Doing a bulk update
-   thingspeakPOST(live_Json +jsonBody, String(LIVE_CHANNEL_ID));
+   tsPOST = "";
+   tsPOST += live_Json;
+   tsPOST += jsonBody;
+   Serial.print(tsPOST);
+   Serial.println();
 
-   delay(15500);
-   
-  
-   thingspeakPOST(archive_Json + jsonBody, String(ARCHIVE_CHANNEL_ID));
+   thingspeakPOST(tsPOST, String(LIVE_CHANNEL_ID));
+
+   //delay(15500);
+
+   tsPOST = "";
+   tsPOST += archive_Json;
+   tsPOST += jsonBody;
+   Serial.print(tsPOST);
+   Serial.println();
+
+   thingspeakPOST(tsPOST, String(ARCHIVE_CHANNEL_ID));
    
    onem2mPOST(onem2mBuffer);
 
    jsonBody = "";
    Temp = "";
    onem2mBuffer = "";
+   tsPOST = "";
+   eprev = 0;
+}
+
+void clearChannel(int ChannelID){
+    http_Client.begin("https://api.thingspeak.com/channels/"+String(ChannelID)+"/feeds.json");
+    http_Client.addHeader("Content-Type", "application/x-www-form-urlencoded");
+    clearStatusCode = 0;
+    ClearReq  = "api_key=";
+    ClearReq += USER_API_KEY;
+    Serial.println(ClearReq);
+    while(clearStatusCode != 200){
+       clearStatusCode = http_Client.POST(ClearReq);
+       Serial.println(clearStatusCode);
+       
+       if(clearStatusCode != 200){
+        delay(15500);
+       }
+    }
+    http_Client.end();
+    Serial.println(clearStatusCode);
+    clearStatusCode = 0;
+    ClearReq = "";
+  
 }
 
 void thingspeakPOST(String rep,String channel_id) {
@@ -396,17 +454,19 @@ void thingspeakPOST(String rep,String channel_id) {
 
   http_Client.addHeader("Content-Type", "application/json");
   
-  Serial.println(rep);
+  Serial.println("POST");
 
   postStatusCode = 0;
   while(postStatusCode != 202){
     postStatusCode = http_Client.POST(rep);
-
+      Serial.print(postStatusCode);
+      Serial.println();
     if(postStatusCode != 202)
       delay(15500);
   }
-
   http_Client.end();
+  Serial.println(postStatusCode);
+  postStatusCode = 0;
 }
 
 void onem2mPOST(String rep) {
@@ -415,7 +475,8 @@ void onem2mPOST(String rep) {
   
     http_Client.addHeader("X-M2M-Origin", USER_PASS);
     http_Client.addHeader("Content-Type", "application/json;ty=4");
-
+    http_Client.addHeader("Content-Length", "1000");
+    Serial.println(rep);
     onem2mrequest= String() + "{\"m2m:cin\": {"
 
       +
@@ -424,18 +485,19 @@ void onem2mPOST(String rep) {
       +
       "\"lbl\": \"" + "V1.0.0" + "\","
 
-      //+ "\"rn\": \"" + "cin_"+String(i++) + "\","
-
       +
       "\"cnf\": \"text\""
 
       +
       "}}";
+    Serial.println(onem2mrequest);
+
     onem2mcode = 0;
-    while(onem2mcode != 202)
+    while(onem2mcode != 201)
     {
-      http_Client.POST(onem2mrequest);
-      if(onem2mcode  != 202){
+      onem2mcode = http_Client.POST(onem2mrequest);
+      Serial.println(onem2mcode);
+      if(onem2mcode  != 201){
         delay(30000);
       }
     }
