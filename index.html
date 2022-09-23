@@ -100,15 +100,15 @@ header("Expires: Wed, 1 Jan 2020 00:00:00 GMT"); // Anytime in the past
             </div>
 
             <div class="form-control" target="dummyframe">
-                <input type="number" id="kp" placeholder="Enter K_p" required />
+                <input type="number" step="any" min="0" max="100" id="kp" placeholder="Enter K_p" required />
             </div>
 
             <div class="form-control" target="dummyframe">
-                <input type="number" id="kd" placeholder="Enter K_d" required />
+                <input type="number" step="any" min="0" max="100" id="kd" placeholder="Enter K_d" required />
             </div>
 
             <div class="form-control" target="dummyframe">
-                <input type="number" id="ki" placeholder="Enter K_i" required />
+                <input type="number" step="any" min="0" max="100" id="ki" placeholder="Enter K_i" required />
             </div>
 
             <!-- <input type="submit" value="Send" class="submit-btn" onclick="bulkPush()" /> -->
