@@ -152,7 +152,7 @@ header("Expires: Wed, 1 Jan 2020 00:00:00 GMT"); // Anytime in the past
             console.log(ki);
             console.log(kd);
 
-            const url = 'https://api.thingspeak.com/update?api_key=S6W8OO70L5TBDX50=' + angle + '&field2=' + kp + '&field3=' + ki + '&field4=' + kd;
+            const url = 'https://api.thingspeak.com/update?api_key=S6W8OO70L5TBDX50&field1=' + angle + '&field2=' + kp + '&field3=' + ki + '&field4=' + kd;
 
             fetchAsync(url)
                 .then(data => console.log(data))
