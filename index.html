@@ -112,7 +112,7 @@ header("Expires: Wed, 1 Jan 2020 00:00:00 GMT"); // Anytime in the past
             </div>
 
             <!-- <input type="submit" value="Send" class="submit-btn" onclick="bulkPush()" /> -->
-            <button onclick="bulkPush()">Send</button>
+            <button onclick="bulkPush()" value="Submit">Send</button>
         </fieldset>
         <!-- button onclick bulkpush -->
     </form>
@@ -141,23 +141,23 @@ header("Expires: Wed, 1 Jan 2020 00:00:00 GMT"); // Anytime in the past
 
     <script>
         function bulkPush() {
-            console.log('Hi')
-
-            let angle = document.getElementById("input_angle").value;
-            let kp = document.getElementById("kp").value;
-            let ki = document.getElementById("ki").value;
-            let kd = document.getElementById("kd").value;
-            console.log(angle);
-            console.log(kp);
-            console.log(ki);
-            console.log(kd);
-
-            const url = 'https://api.thingspeak.com/update?api_key=S6W8OO70L5TBDX50&field1=' + angle + '&field2=' + kp + '&field3=' + kd + '&field4=' + ki;
-            console.log(url);
-
-            fetchAsync(url)
-                .then(data => console.log(data))
-                .catch(reason => console.log(reason.message));
+            // console.log('Hi')
+            //
+            // let angle = document.getElementById("input_angle").value;
+            // let kp = document.getElementById("kp").value;
+            // let ki = document.getElementById("ki").value;
+            // let kd = document.getElementById("kd").value;
+            // console.log(angle);
+            // console.log(kp);
+            // console.log(ki);
+            // console.log(kd);
+            //
+            // const url = 'https://api.thingspeak.com/update?api_key=S6W8OO70L5TBDX50&field1=' + angle + '&field2=' + kp + '&field3=' + kd + '&field4=' + ki;
+            // console.log(url);
+            //
+            // fetchAsync(url)
+            //     .then(data => console.log(data))
+            //     .catch(reason => console.log(reason.message));
         }
     </script>
 </body>

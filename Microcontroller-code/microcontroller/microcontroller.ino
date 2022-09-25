@@ -129,7 +129,6 @@ void setup() {
     
     Serial.print("\nConnected to WiFi network with IP Address: ");
     Serial.println(WiFi.localIP());
-
     ThingSpeak.begin(wifi_Client);
 
 }
@@ -175,24 +174,22 @@ void loop() {
   if(input_target != previous_target){
     PID_control(input_target,k_p,k_d,k_i,Experiment_ID);
     previous_target = input_target;
-    setMotor(0,0,PWM,IN1,IN2); 
+    setMotor(0,0,PWM,IN1,IN2);  
   }
 
-  delay(60000);
+  delay(30000);
   if(previous_target != 0.0){
     PID_reset(0,K_P,K_D,K_I);
     previous_target = 0;
     setMotor(0,0,PWM,IN1,IN2); 
 
   }
-  // clearChannel(LIVE_CHANNEL_ID);
-  delay(60000);
-  
-
+  delay(30000);
 }
 
 void PID_reset(float target,float kp,float kd,float ki) 
 {
+    target = target*-1;
     startTime = millis();
     lastTime = millis();
     eprev = 0;
@@ -321,7 +318,7 @@ void PID_control(float target,float kp,float kd,float ki,int ID)
             }
             else if (pos < target)
             {
-              if (md == 1)
+                if (md == 1)
                 eintegral = 0;
               md = -1;
             }
