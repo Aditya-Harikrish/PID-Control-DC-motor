@@ -112,7 +112,7 @@ header("Expires: Wed, 1 Jan 2020 00:00:00 GMT"); // Anytime in the past
             </div>
 
             <!-- <input type="submit" value="Send" class="submit-btn" onclick="bulkPush()" /> -->
-            <button onclick="bulkPush()" value="Submit">Send</button>
+            <button onclick="bulkPush()"  value="Submit">Send</button>
         </fieldset>
         <!-- button onclick bulkpush -->
     </form>
@@ -127,6 +127,15 @@ header("Expires: Wed, 1 Jan 2020 00:00:00 GMT"); // Anytime in the past
     <iframe width="450" height="260" style="border: 1px solid #cccccc;"
         src="https://thingspeak.com/channels/1825221/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=75&title=Error%28u%29&type=line&xaxis=Time%28+Difference+in+Time+scaled+10x%29&yaxis=PID+Error"></iframe>
     <br>
+    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1856865/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=75&title=Current+Angle&type=line&xaxis=Time%28+Difference+in+Time+scaled+10x+%29&yaxis=Angle+%28Degrees%29&yaxismin=0"></iframe>
+
+
+
+<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1856865/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=75&title=Error&type=line&xaxis=Time%28+Difference+in+Time+scaled+10x+%29&yaxis=U"></iframe>
+
+
+
+<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1856865/charts/7?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=75&title=Power+Given&type=line&xaxis=Time%28+Difference+in+Time+scaled+10x+%29&yaxis=PWR"></iframe>
     <br>
 
     <iframe width="450" height="260" style="border: 1px solid #cccccc;"
@@ -141,23 +150,23 @@ header("Expires: Wed, 1 Jan 2020 00:00:00 GMT"); // Anytime in the past
 
     <script>
         function bulkPush() {
-            // console.log('Hi')
-            //
-            // let angle = document.getElementById("input_angle").value;
-            // let kp = document.getElementById("kp").value;
-            // let ki = document.getElementById("ki").value;
-            // let kd = document.getElementById("kd").value;
-            // console.log(angle);
-            // console.log(kp);
-            // console.log(ki);
-            // console.log(kd);
-            //
-            // const url = 'https://api.thingspeak.com/update?api_key=S6W8OO70L5TBDX50&field1=' + angle + '&field2=' + kp + '&field3=' + kd + '&field4=' + ki;
-            // console.log(url);
-            //
-            // fetchAsync(url)
-            //     .then(data => console.log(data))
-            //     .catch(reason => console.log(reason.message));
+//             console.log('Hi')
+
+//             let angle = document.getElementById("input_angle").value;
+//             let kp = document.getElementById("kp").value;
+//             let ki = document.getElementById("ki").value;
+//             let kd = document.getElementById("kd").value;
+//             console.log(angle);
+//             console.log(kp);
+//             console.log(ki);
+//             console.log(kd);
+
+//             const url = 'https://api.thingspeak.com/update?api_key=S6W8OO70L5TBDX50&field1=' + angle + '&field2=' + kp + '&field3=' + kd + '&field4=' + ki;
+//             console.log(url);
+
+//             fetchAsync(url)
+//                 .then(data => console.log(data))
+//                 .catch(reason => console.log(reason.message));
         }
     </script>
 </body>
