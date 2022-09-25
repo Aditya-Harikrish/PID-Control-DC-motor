@@ -177,14 +177,14 @@ void loop() {
     setMotor(0,0,PWM,IN1,IN2);  
   }
 
-  delay(30000);
+  delay(45000);
   if(previous_target != 0.0){
     PID_reset(0,K_P,K_D,K_I);
     previous_target = 0;
     setMotor(0,0,PWM,IN1,IN2); 
 
   }
-  delay(30000);
+  delay(45000);
 }
 
 void PID_reset(float target,float kp,float kd,float ki) 
