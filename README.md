@@ -1,27 +1,12 @@
 # PID-Control-DC-motor
 Experiment to demonstrate the principle of feedback control using PID control of a DC motor
 
-#### DashBoard
 
-- See : [Run the Dashboard server](https://github.com/LokeshVenkatachalam/PID-Control-DC-motor/blob/main/dashboard/README.md)
-
-#### Hardware
-
-- See : [Video](_)
-
-
-#### Microcontroller Code
-
-- See : [Microcontroller-Code](https://github.com/LokeshVenkatachalam/PID-Control-DC-motor/tree/main/Microcontroller-code)
-
-#### Presentation
-
-- See: [Presentation](https://github.com/LokeshVenkatachalam/PID-Control-DC-motor/blob/main/Presentation/Team35_DCMotorPID_24Sep.pdf)
-
-
-#### Report
-
-- See: [Report](https://github.com/LokeshVenkatachalam/PID-Control-DC-motor/blob/main/Report/Team35_DCMotorPID_24Sep%20-%20FINAL.pdf)
+-  [Run the Dashboard server](https://github.com/LokeshVenkatachalam/PID-Control-DC-motor/blob/main/dashboard/README.md)
+-  [Video Explaning](_)
+-  [Microcontroller-Code](https://github.com/LokeshVenkatachalam/PID-Control-DC-motor/tree/main/Microcontroller-code)
+-  [Presentation](https://github.com/LokeshVenkatachalam/PID-Control-DC-motor/blob/main/Presentation/Team35_DCMotorPID_24Sep.pdf)
+-  [Report](https://github.com/LokeshVenkatachalam/PID-Control-DC-motor/blob/main/Report/Team35_DCMotorPID_24Sep%20-%20FINAL.pdf)
 
 ## TEAM - SPECTRE
 
