@@ -20,7 +20,7 @@ class Camera extends Component {
             >
                 <iframe
 
-                    src="http://c669-2409-4070-2bca-e542-3acd-3897-7e41-289f.ngrok.io/"
+                    src="http://9a8d-2409-4070-2e92-cc2-7dbb-c484-9e8f-3fd5.ngrok.io/"
                     height="650"
                     width="900"
                     allowfullscreen="true"
